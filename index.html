@@ -4,28 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Love Rain</title>
+  <title>Love Effect</title>
   <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      background: url('assets/background.jpg') no-repeat center center fixed;
+      background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Sacramento', cursive;
       overflow: hidden;
     }
+
     .text {
       position: absolute;
       white-space: nowrap;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: bold;
-      animation: fadeOut 8s ease-in-out forwards;
+      animation: fadeOut 10s ease-in-out forwards;
       pointer-events: none;
     }
+
     @keyframes fadeOut {
       0% { opacity: 1; transform: scale(1); }
       100% { opacity: 0; transform: scale(0.5); }
     }
+
     .heart {
       position: absolute;
       width: 20px;
@@ -34,6 +37,7 @@
       transform: rotate(45deg);
       animation: fall 5s linear infinite;
     }
+
     .heart::before,
     .heart::after {
       content: '';
@@ -43,35 +47,43 @@
       background-color: red;
       border-radius: 50%;
     }
-    .heart::before { top: -10px; left: 0; }
-    .heart::after { left: -10px; top: 0; }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
 
     @keyframes fall {
       0% { top: -50px; opacity: 1; }
       100% { top: 100vh; opacity: 0; }
     }
 
-    #startText {
+    #tap {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
       font-size: 24px;
-      text-align: center;
-      background: rgba(0,0,0,0.5);
+      background-color: rgba(0,0,0,0.6);
       padding: 20px;
       border-radius: 10px;
-      font-family: 'Arial', sans-serif;
       z-index: 9999;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div id="startText">💖 Nhấn vào màn hình để bắt đầu 💖</div>
-  <audio id="bgMusic" loop>
-    <source src="assets/music.mp3" type="audio/mpeg">
-  </audio>
+
+<div id="tap">Chạm vào màn hình để bắt đầu</div>
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
   const messages = [
@@ -87,8 +99,9 @@
     "Will you be mine?"
   ];
   const colors = ["#FF69B4", "#FFD700", "#ADFF2F", "#00BFFF", "#FFA07A", "#FF1493"];
+
   const audio = document.getElementById("bgMusic");
-  const startText = document.getElementById("startText");
+  const tap = document.getElementById("tap");
 
   function createText() {
     const text = document.createElement("div");
@@ -98,7 +111,7 @@
     text.style.top = Math.random() * window.innerHeight + "px";
     text.style.color = colors[Math.floor(Math.random() * colors.length)];
     document.body.appendChild(text);
-    setTimeout(() => text.remove(), 8000);
+    setTimeout(() => text.remove(), 10000);
   }
 
   function createHeart() {
@@ -111,14 +124,14 @@
     setTimeout(() => heart.remove(), 5000);
   }
 
-  function startEffect() {
-    startText.style.display = "none";
-    audio.play().catch(e => console.log("Không phát được nhạc:", e));
-    setInterval(createText, 500);
+  function start() {
+    tap.style.display = "none";
+    audio.play().catch(e => console.log("Không thể phát nhạc:", e));
+    setInterval(createText, 800);
     setInterval(createHeart, 300);
   }
 
-  document.addEventListener("click", startEffect, { once: true });
+  document.addEventListener("click", start, { once: true });
 </script>
 </body>
 </html>
