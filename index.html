@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love Rain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: url('assets/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Sacramento', cursive;
+      overflow: hidden;
+    }
+    .text {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 28px;
+      font-weight: bold;
+      animation: fadeOut 8s ease-in-out forwards;
+      pointer-events: none;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.5); }
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      transform: rotate(45deg);
+      animation: fall 5s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+
+    @keyframes fall {
+      0% { top: -50px; opacity: 1; }
+      100% { top: 100vh; opacity: 0; }
+    }
+
+    #startText {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 10px;
+      font-family: 'Arial', sans-serif;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="startText">💖 Nhấn vào màn hình để bắt đầu 💖</div>
+  <audio id="bgMusic" loop>
+    <source src="assets/music.mp3" type="audio/mpeg">
+  </audio>
+
+<script>
+  const messages = [
+    "I think I’ve fallen for you",
+    "You make my heart smile",
+    "I can’t stop thinking about you",
+    "You complete me.",
+    "I didn’t believe in love until I met you.",
+    "Being with you feels like home",
+    "You’re the reason I smile every day",
+    "I want to be yours.",
+    "You’re the one I’ve been looking for.",
+    "Will you be mine?"
+  ];
+  const colors = ["#FF69B4", "#FFD700", "#ADFF2F", "#00BFFF", "#FFA07A", "#FF1493"];
+  const audio = document.getElementById("bgMusic");
+  const startText = document.getElementById("startText");
+
+  function createText() {
+    const text = document.createElement("div");
+    text.className = "text";
+    text.innerText = messages[Math.floor(Math.random() * messages.length)];
+    text.style.left = Math.random() * window.innerWidth + "px";
+    text.style.top = Math.random() * window.innerHeight + "px";
+    text.style.color = colors[Math.floor(Math.random() * colors.length)];
+    document.body.appendChild(text);
+    setTimeout(() => text.remove(), 8000);
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "-20px";
+    heart.style.opacity = Math.random();
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }
+
+  function startEffect() {
+    startText.style.display = "none";
+    audio.play().catch(e => console.log("Không phát được nhạc:", e));
+    setInterval(createText, 500);
+    setInterval(createHeart, 300);
+  }
+
+  document.addEventListener("click", startEffect, { once: true });
+</script>
+</body>
+</html>
